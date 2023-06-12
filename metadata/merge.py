@@ -32,14 +32,24 @@ def merge_waterframes(waterframes):
             else:
                 variables_attr[varname].append(varmeta)
 
-    rich.print(df)
+    sensor_ids = [wf.metadata["$sensor_id"] for wf in waterframes]
+    rich.print(f"Sensor IDs: {sensor_ids}")
+
+    for wf in waterframes:
+        rich.print(f"[white]==== Sensor {wf.metadata['$sensor_id']} ====")
+        print(wf.data)
+
     df = pd.concat(dataframes)  # Consolidate data in a single dataframe
     df = df.sort_index(ascending=True)  # sort by date
     df = df.reset_index()  # get back to numerical index
     rich.print(df)
-    df.to_csv("data.csv")
-    input("Before and after concatenating...")
 
+
+    for sid in sensor_ids:
+        rich.print(f"[purple]==== After concat Sensor {wf.metadata['$sensor_id']} ====")
+        subdf = df[df["SENSOR_ID"] == sid]
+        rich.print(subdf)
+            
     # Consolidating Global metadata, the position in the array is the priority
     global_meta = {}
     for g in reversed(global_attr):  # loop backwards, last element has lower priority

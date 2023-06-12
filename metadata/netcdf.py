@@ -63,7 +63,6 @@ def wf_to_multidim_nc(wf: md.WaterFrame, filename: str, dimensions: list, fill_v
             var[:] = values  # assign dimension values
 
             # add all dimension metadata
-
             for key, value in wf.vocabulary[dimension].items():
                 if type(value) == list:
                     values = [str(v) for v in value]
@@ -87,7 +86,7 @@ def wf_to_multidim_nc(wf: md.WaterFrame, filename: str, dimensions: list, fill_v
                     value = join_attr.join(values)
                 var.setncattr(key, value)
 
-        # Set global attibutes
+        # Set global attributes
         for key, value in wf.metadata.items():
             if type(value) == list:
                 values = [str(v) for v in value]
